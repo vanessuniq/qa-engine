@@ -64,6 +64,34 @@ header {
 main {
     text-align: center;
 }
+
+/* Form style */
+.form_popup {
+    position: fixed;
+    bottom: 0;
+    right: 15px;
+    border: 3px solid #f1f1f1;
+    z-index: 9;
+  }
+.container {
+    max-width: 300px;
+    padding: 10px;
+    background-color: white;
+  }
+  
+  /* Full-width input fields */
+  .container input {
+    padding: 15px;
+    margin: 5px 0 22px 0;
+    border: none;
+    background: #f1f1f1;
+  }
+  
+  /* When the inputs get focus */
+  .container input:focus {
+    background-color: #ddd;
+    outline: none;
+  }
 /* Screen fit */
     
 @media screen and (max-width: 768px) {
