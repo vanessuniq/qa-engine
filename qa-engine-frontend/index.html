@@ -4,9 +4,28 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="styles.css">
     <script type="application/javascript" src="src/index.js" defer charset="UTF-8"></script>
 </head>
 <body>
-    <h1></h1>
+    <header>
+        <div>
+            <select id="topic">
+                <option value="">Filter by topic</option>
+                <option value="Rails">Rails</option>
+                <option value="HTML">HTML</option>
+                <option value="CSS">CSS</option>
+                <option value="JS">JS</option>
+            </select>
+        </div>
+        
+        <div id="nav">
+            <button class="right" id="newq">Post New Question</button>
+            <button class="right" id="signup">Sign Up</button>
+            <button class="right" id="login">Log In</button>
+        </div>
+        <h1 id="logo">Welcome To Web Dev QA Engine</h1>
+    </header>
+    <main></main>
 </body>
 </html>
