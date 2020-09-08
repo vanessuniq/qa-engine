@@ -1,16 +1,6 @@
-CREATE_USER = 'http://localhost:3000/users'
-LOGIN_USER = 'http://localhost:3000/login'
-const header = document.querySelector('header');
-const main = document.querySelector('main');
-
+//create user forms for sign up/login
 function createUserForm(type, url) {
-    main.innerText = '';
-    const div = document.createElement('div');
-    div.classList.add('form_popup');
-    main.appendChild(div);
-    const form = document.createElement('form');
-    form.classList.add('container');
-    div.appendChild(form);
+    const form = createForm();
     const h1 = document.createElement('h1');
     h1.innerHTML = type;
     const username = document.createElement('input');
@@ -20,26 +10,16 @@ function createUserForm(type, url) {
     password.id = 'password';
     password.placeholder = 'Enter Password';
 
-    const submit = document.createElement('button')
-    submit.type = 'submit';
-    submit.style.background = 'green'
-    submit.innerText = type;
+    const buttons = formButtons(type);
+    form.append(h1, username, password, ...buttons)
+
     form.addEventListener('submit', (event) => {
         event.preventDefault();
         getUser(username.textContent, password.textContent, url);
 
     })
-    const cancel = document.createElement('button');
-    cancel.style.background = 'red'
-    cancel.innerText = 'cancel';
-    cancel.addEventListener('click', event => {
-        event.preventDefault();
-        closeForm();
-    })
-
-    form.append(h1, username, password, submit, cancel)
 };
-
+// create or get user
 function getUser(username, password, url) {
     closeForm();
     fetch(url, {
@@ -58,7 +38,7 @@ function getUser(username, password, url) {
 function closeForm() {
     document.querySelector('div.form_popup').remove();
 };
-
+// registration
 function registration() {
     regEvent = document.getElementById('nav');
     regEvent.addEventListener('click', (e) => {
