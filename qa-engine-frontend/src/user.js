@@ -1,8 +1,6 @@
 //create user forms for sign up/login
 function createUserForm(type, url) {
-    const form = createForm();
-    const h1 = document.createElement('h1');
-    h1.innerHTML = type;
+    const form = createForm(type);
     const username = document.createElement('input');
     username.id = 'username';
     username.placeholder = 'Enter Username'
@@ -11,7 +9,7 @@ function createUserForm(type, url) {
     password.placeholder = 'Enter Password';
 
     const buttons = formButtons(type);
-    form.append(h1, username, password, ...buttons)
+    form.append(username, password, ...buttons)
 
     form.addEventListener('submit', (event) => {
         event.preventDefault();
@@ -35,9 +33,6 @@ function getUser(username, password, url) {
     }).then(resp => resp.json()).then(data => console.log(data))
 };
 
-function closeForm() {
-    document.querySelector('div.form_popup').remove();
-};
 // registration
 function registration() {
     regEvent = document.getElementById('nav');

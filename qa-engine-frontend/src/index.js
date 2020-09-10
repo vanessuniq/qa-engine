@@ -1,16 +1,22 @@
 CREATE_USER = 'http://localhost:3000/users'
 LOGIN_USER = 'http://localhost:3000/login'
+QUESTIONS = 'http://localhost:3000/questions'
 const header = document.querySelector('header');
 const main = document.querySelector('main');
 
 // form element
-function createForm() {
+function createForm(type) {
+    let popup = document.querySelector('div.form_popup');
+    popup? popup.remove() : popup
     const div = document.createElement('div');
     div.classList.add('form_popup');
     header.appendChild(div);
     const form = document.createElement('form');
     form.classList.add('container');
     div.appendChild(form);
+    const h1 = document.createElement('h1');
+    h1.innerHTML = type;
+    form.appendChild(h1);
     return form
 };
 
@@ -29,4 +35,8 @@ function formButtons(type, type1 = 'cancel') {
     });
 
     return [submit, cancel]
-}
+};
+
+function closeForm() {
+    document.querySelector('div.form_popup').remove();
+};

@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
-  resource :questions, only: [:index, :create, :show, :destory]
+  resources :questions, except: [:new, :edit, :update]
   
-  resource :users, only: [:create]
+  resources :users, only: [:create]
   post '/login', to: "auth#login"
   get '/profile', to: "users#profile"
 end
