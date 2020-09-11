@@ -1,5 +1,7 @@
 class QuestionsController < ApplicationController
   def index
+    questions = Question.all
+    render json: QuestionSerializer.new(questions).serializable_hash
   end
 
   def create
@@ -7,7 +9,7 @@ class QuestionsController < ApplicationController
     if question.save
       render json: QuestionSerializer.new(question).serializable_hash
     else
-      render json: {errors: user.errors.full_messages}, status: :not_acceptable 
+      render json: {errors: question.errors.full_messages}, status: :not_acceptable 
     end
   end
 

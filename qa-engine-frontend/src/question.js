@@ -9,22 +9,38 @@ class Questions {
     }
 };
 
+function selection() {
+    const select = document.createElement('select');
+    const topic = ['Select Topic', 'Rails', 'HTML', 'CSS', 'JS'];
+    topic.forEach(topic => {
+        const option = document.createElement('option');
+        option.value = topic;
+        option.textContent = topic;
+        select.appendChild(option)
+    });
+    return select
+}
+
 // questions form
 function CreateQuestionForm(type, url) {
-    const form = createForm();
+    const form = createForm(type);
     const author = document.createElement('input');
     author.placeholder = 'Enter your name/username'
     const title = document.createElement('input');
     title.placeholder = 'Question title';
-    const select = document.querySelector('header div select');
-    const content =  document.createElement('textarea');
-    
+    const select = selection();
+    const body =  document.createElement('textarea');
+    body.rows = '5';
+    body.cols = '30';
+    body.placeholder = 'Type your Question'
+    const br = document.createElement('br')
     const buttons = formButtons(type);
-    form.append(author, title, select, content, ...buttons)
+    form.append(author, title, select, br, body, ...buttons)
 
     form.addEventListener('submit', (event) => {
         event.preventDefault();
-        postQuestion(author.textContent, title.textContent, body.textContent, select.nodeValue, url);
+        postQuestion(author.value, title.value, body.value, select.value, url);
+        debugger;
     })
     
 };
@@ -47,4 +63,9 @@ function postQuestion(author, title, body, topic, url) {
         })
     }).then(resp => resp.json()).then(data => console.log(data))
 
+};
+
+// fetch and display all questions
+function displayQuestions(params) {
+    
 }

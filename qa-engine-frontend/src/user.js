@@ -13,8 +13,7 @@ function createUserForm(type, url) {
 
     form.addEventListener('submit', (event) => {
         event.preventDefault();
-        getUser(username.textContent, password.textContent, url);
-
+        getUser(username.value, password.value, url);
     })
 };
 // create or get user
@@ -33,13 +32,13 @@ function getUser(username, password, url) {
     }).then(resp => resp.json()).then(data => console.log(data))
 };
 
-// registration
-function registration() {
-    regEvent = document.getElementById('nav');
-    regEvent.addEventListener('click', (e) => {
+// Header event: loggin, sign up, post question
+function headerEvent() {
+    let Event = document.getElementById('nav');
+    Event.addEventListener('click', (e) => {
         const targetElement = e.target;
         if (targetElement.id === 'newq') {
-            // logic to execute
+            CreateQuestionForm(targetElement.innerText, QUESTIONS)
         } else if(targetElement.id === 'login'){
             createUserForm(targetElement.innerText, LOGIN_USER)
         } else {
@@ -47,4 +46,4 @@ function registration() {
         }
     })
 };
-registration();
+headerEvent();
