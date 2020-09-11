@@ -59,12 +59,6 @@ header {
     border-radius: 5px;
     box-shadow: 4px 4px #ccc;
 }
-
-/* main */
-main {
-    text-align: center;
-}
-
 /* Form style */
 .form_popup {
     position: fixed;
@@ -93,6 +87,35 @@ main {
     background-color: #ddd;
     outline: none;
   }
+
+/* main */
+main {
+    text-align: center;
+}
+
+/* questions display*/
+.question {
+    margin-bottom: 15px;
+    padding: 10px;
+    border: 5px solid rgb(231, 10, 58);
+}
+    
+.user {
+    color:rgb(43, 43, 156);
+    margin-bottom: 5px; 
+}
+.content { 
+    margin-left: 30px;
+    font-style:italic;
+    padding: 12px;
+    width: auto;
+    max-height: 600px;
+    overflow: auto;
+    font-size: 13px;
+    line-height: 1.30769231;
+    border-radius: 5px;
+}
+
 /* Screen fit */
     
 @media screen and (max-width: 768px) {
