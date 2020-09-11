@@ -40,3 +40,19 @@ function formButtons(type, type1 = 'cancel') {
 function closeForm() {
     document.querySelector('div.form_popup').remove();
 };
+
+// Header event: loggin, sign up, post question
+function headerEvent() {
+    let Event = document.getElementById('nav');
+    Event.addEventListener('click', (e) => {
+        const targetElement = e.target;
+        if (targetElement.id === 'newq') {
+            CreateQuestionForm(targetElement.innerText, QUESTIONS)
+        } else if(targetElement.id === 'login'){
+            createUserForm(targetElement.innerText, LOGIN_USER)
+        } else {
+            createUserForm(targetElement.innerText, CREATE_USER)
+        }
+    })
+};
+headerEvent();
