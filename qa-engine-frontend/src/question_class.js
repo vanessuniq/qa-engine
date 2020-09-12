@@ -34,21 +34,40 @@ class Question {
         p.textContent = this.body;
         content.appendChild(p);
 
-        question.append(h1, user, content, ...this.questionAction());
+        question.append(h1, user, content, this.questionAction());
         return question
     };
 
     questionAction() {
-        const view = document.createElement('button');
-        view.className = 'action';
-        view.textContent = 'view'
-        view.style.color = 'blue'
-        const destroy = document.createElement('button');
-        destroy.className = 'action';
-        destroy.textContent = 'delete';
-        destroy.style.color = 'red';
-
-        return [view, destroy]
+        const div = document.createElement('div');
+        div.id = this.id;
+        div.className = 'actions';
+        ['view', 'delete'].forEach(string => {
+            const element = document.createElement('button');
+            element.className = 'action';
+            element.textContent = string;
+            if (string === 'view') {
+                element.style.color = 'blue';
+            } else {
+                element.style.color = 'red';
+            };
+            div.appendChild(element);
+        });
+        div.addEventListener('click', Question.questionEvent);
+        return div;
+    };
+    static questionEvent(event) {
+        const action = event.target;
+        const id = action.parentNode.id;
+        if (action.innerText === 'view') {
+            main.innerText = '';
+            const displayQuestion = allQuestions.find(obj => obj.id === id).renderQuestion();
+            displayQuestion.removeChild(displayQuestion.lastElementChild);
+            displayQuestion.className = 'show';
+            main.appendChild(displayQuestion)
+        } else {
+            // add code for deleting question
+        }
     };
     // fetch and display all questions (Index)
     static async fetchQuestions() {

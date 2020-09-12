@@ -117,12 +117,22 @@ div.question {
     height: 350px;
 }
 
+.show {
+    margin-bottom: 15px;
+    margin-left: 25%;
+    padding: 10px;
+    border: 5px solid rgb(231, 10, 58);
+    max-width: 600px;
+}
+
 div.user {
     color: rgb(43, 43, 156);
     margin-bottom: 5px;
 }
 
 div.content {
+    color: var(--highlight-color);
+    background-color: lightgrey;
     margin-left: 30px;
     font-style: italic;
     padding: 12px;
@@ -132,6 +142,11 @@ div.content {
     font-size: 13px;
     line-height: 1.30769231;
     border-radius: 5px;
+}
+
+.actions {
+    position: sticky;
+    margin-top: 30px;
 }
 
 .action {
