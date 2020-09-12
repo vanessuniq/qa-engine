@@ -1,73 +1,41 @@
-class Question {
+class Question extends Post {
     constructor(id, author, title, body, topic, created_at) {
-        this.id = id;
-        this.author = author;
+        super(id, author, body, created_at);
         this.title = title;
-        this.body = body;
         this.topic = topic;
-        this.created_at = created_at
     };
-    dateFormat() {
-            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }
-            return new Date(this.created_at).toLocaleDateString('en-US', options)
-        }
-        // Show
+    // Show
     renderQuestion() {
-        let question = document.createElement('div');
-        question.className = 'question'
-        let h1 = document.createElement('h1');
-        let span = document.createElement('span');
-        span.style.color = 'brown'
+        const question = this.renderPost();
+        const h1 = document.createElement('h1');
+        const span = document.createElement('span');
+        span.style.color = 'brown';
         span.textContent = '#' + this.topic
         h1.textContent = `${this.title} || `
-        h1.appendChild(span)
+        h1.appendChild(span);
+        question.prepend(h1);
 
-        let user = document.createElement('div');
-        user.className = 'user';
-        let h5 = document.createElement('h5');
-        h5.textContent = `Posted by: ${this.author}  || posted on: ${this.dateFormat()}`;
-        user.appendChild(h5);
+        const divButton = this.postAction('view');
+        this.questionEvent(divButton);
+        question.appendChild(divButton);
 
-        let content = document.createElement('div');
-        content.className = 'content';
-        let p = document.createElement('p');
-        p.textContent = this.body;
-        content.appendChild(p);
-
-        question.append(h1, user, content, this.questionAction());
-        return question
+        return question;
     };
-
-    questionAction() {
-        const div = document.createElement('div');
-        div.id = this.id;
-        div.className = 'actions';
-        ['view', 'delete'].forEach(string => {
-            const element = document.createElement('button');
-            element.className = 'action';
-            element.textContent = string;
-            if (string === 'view') {
-                element.style.color = 'blue';
+    // question action event handling
+    questionEvent(element) {
+        element.addEventListener('click', event => {
+            const action = event.target;
+            const id = action.parentNode.id;
+            if (action.innerText === 'view') {
+                main.innerText = '';
+                const displayQuestion = allQuestions.find(obj => obj.id === id).renderQuestion();
+                displayQuestion.removeChild(displayQuestion.lastElementChild);
+                displayQuestion.className = 'show';
+                main.appendChild(displayQuestion)
             } else {
-                element.style.color = 'red';
+                // add code for deleting question
             };
-            div.appendChild(element);
         });
-        div.addEventListener('click', Question.questionEvent);
-        return div;
-    };
-    static questionEvent(event) {
-        const action = event.target;
-        const id = action.parentNode.id;
-        if (action.innerText === 'view') {
-            main.innerText = '';
-            const displayQuestion = allQuestions.find(obj => obj.id === id).renderQuestion();
-            displayQuestion.removeChild(displayQuestion.lastElementChild);
-            displayQuestion.className = 'show';
-            main.appendChild(displayQuestion)
-        } else {
-            // add code for deleting question
-        }
     };
     // fetch and display all questions (Index)
     static async fetchQuestions() {

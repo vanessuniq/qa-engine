@@ -1,3 +1,4 @@
+// helper question functions
 let allQuestions = [];
 // select element for questions form
 function selection() {
