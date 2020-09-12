@@ -1,11 +1,13 @@
 /* main structure */
+
 body {
     background-color: burlywood;
     font-family: verdana, helvetica, arial;
     font-size: 14px;
     margin: 0;
     padding: 0;
-  }
+}
+
 button {
     width: 220px;
     height: 50px;
@@ -17,19 +19,18 @@ button {
     z-index: 0;
     border-radius: 10px;
 }
+
 button:hover {
     opacity: 1;
     background: linear-gradient(45deg, #ff0000, #ff7300, #fffb00, #48ff00, #7a00ff, #ff0000);
-    
 }
+
+
 /* header */
+
 header {
     background: #111;
     overflow: hidden;
-    
-}
-.hidden {
-    visibility: hidden;
 }
 
 .right {
@@ -47,8 +48,8 @@ header {
     letter-spacing: -1px;
     padding-top: 9px;
     font-weight: bold;
-    
 }
+
 .topic {
     width: 130px;
     height: 30px;
@@ -59,7 +60,10 @@ header {
     border-radius: 5px;
     box-shadow: 4px 4px #ccc;
 }
+
+
 /* Form style */
+
 .form_popup {
     position: fixed;
     bottom: 0;
@@ -67,57 +71,84 @@ header {
     border: 3px solid #f1f1f1;
     z-index: 9;
     text-align: center;
-  }
+}
+
 .container {
     max-width: 300px;
     padding: 10px;
     background-color: white;
-  }
-  
-  /* Full-width input fields */
-  .container input {
+}
+
+
+/* input fields */
+
+.container input {
     padding: 15px;
     margin: 5px 0 22px 0;
     border: none;
     background: #f1f1f1;
-  }
-  
-  /* When the inputs get focus */
-  .container input:focus {
-    background-color: #ddd;
-    outline: none;
-  }
-
-/* main */
-main {
-    text-align: center;
 }
 
+
+/* When the inputs get focus */
+
+.container input:focus {
+    background-color: #ddd;
+    outline: none;
+}
+
+
+/* main */
+
+main {
+    text-align: center;
+    width: 1300px;
+}
+
+
 /* questions display*/
-.question {
+
+div.question {
     margin-bottom: 15px;
     padding: 10px;
     border: 5px solid rgb(231, 10, 58);
+    float: left;
+    width: 600px;
+    height: 350px;
 }
-    
-.user {
-    color:rgb(43, 43, 156);
-    margin-bottom: 5px; 
+
+div.user {
+    color: rgb(43, 43, 156);
+    margin-bottom: 5px;
 }
-.content { 
+
+div.content {
     margin-left: 30px;
-    font-style:italic;
+    font-style: italic;
     padding: 12px;
     width: auto;
-    max-height: 600px;
+    max-height: 300px;
     overflow: auto;
     font-size: 13px;
     line-height: 1.30769231;
     border-radius: 5px;
 }
 
+.action {
+    position: relative;
+    display: inline-block;
+    background-color: transparent;
+    padding: .8em;
+    border: 1px solid transparent;
+    border-radius: 3px;
+    line-height: 1.15384615;
+    text-align: center;
+    cursor: pointer;
+}
+
+
 /* Screen fit */
-    
+
 @media screen and (max-width: 768px) {
     html,
     body {

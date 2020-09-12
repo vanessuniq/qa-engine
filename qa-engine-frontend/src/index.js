@@ -3,11 +3,12 @@ LOGIN_USER = 'http://localhost:3000/login'
 QUESTIONS = 'http://localhost:3000/questions'
 const header = document.querySelector('header');
 const main = document.querySelector('main');
+const invalid = document.getElementById('error');
 
 // form element
 function createForm(type) {
     let popup = document.querySelector('div.form_popup');
-    popup? popup.remove() : popup
+    popup ? popup.remove() : popup
     const div = document.createElement('div');
     div.classList.add('form_popup');
     header.appendChild(div);
@@ -40,6 +41,28 @@ function formButtons(type, type1 = 'cancel') {
 function closeForm() {
     document.querySelector('div.form_popup').remove();
 };
+// object for post request
+function config(dataObj) {
+    return {
+        method: 'POST',
+        headers: {
+            "Content-Type": "application/json",
+            "Accept": "application/json"
+        },
+        body: JSON.stringify(dataObj)
+    }
+};
+
+// form errors
+function formErrors(errors) {
+    invalid.innerText = '';
+    errors.forEach(error => {
+        const li = document.createElement('li');
+        li.innerHTML = error;
+        li.style.color = 'brown'
+        invalid.appendChild(li);
+    });
+}
 
 // Header event: loggin, sign up, post question
 function headerEvent() {
@@ -48,7 +71,7 @@ function headerEvent() {
         const targetElement = e.target;
         if (targetElement.id === 'newq') {
             CreateQuestionForm(targetElement.innerText, QUESTIONS)
-        } else if(targetElement.id === 'login'){
+        } else if (targetElement.id === 'login') {
             createUserForm(targetElement.innerText, LOGIN_USER)
         } else {
             createUserForm(targetElement.innerText, CREATE_USER)

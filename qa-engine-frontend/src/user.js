@@ -18,17 +18,8 @@ function createUserForm(type, url) {
 };
 // create or get user
 function getUser(username, password, url) {
+    let dataObj = {user: {username, password}}
     closeForm();
-    fetch(url, {
-        method: 'POST',
-        headers: {
-            "Content-Type": "application/json",
-            "Accept": "application/json"
-        },
-        body: JSON.stringify({
-            username,
-            password
-        })
-    }).then(resp => resp.json()).then(data => console.log(data))
+    fetch(url, config(dataObj)).then(resp => resp.json()).then(data => console.log(data))
 };
 
