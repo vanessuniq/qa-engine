@@ -18,7 +18,7 @@ class AnswersController < ApplicationController
     if @answer.update(answer_params)
       render json: AnswerSerializer.new(@answer).serializable_hash
     else
-      render json: {errors: @answer.errors.full_messages}, status: :not_acceptable 
+      render json: {error: @answer.errors.full_messages.first}, status: :not_acceptable 
     end
   end
 

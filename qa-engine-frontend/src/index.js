@@ -71,11 +71,13 @@ function headerEvent() {
     Event.addEventListener('click', (e) => {
         const targetElement = e.target;
         if (targetElement.id === 'newq') {
-            CreateQuestionForm(targetElement.innerText, QUESTIONS)
+            CreateQuestionForm(targetElement.innerText, QUESTIONS);
         } else if (targetElement.id === 'login') {
-            createUserForm(targetElement.innerText, LOGIN_USER)
+            createUserForm(targetElement.innerText, LOGIN_USER);
+        } else if (targetElement.id === 'signup') {
+            createUserForm(targetElement.innerText, CREATE_USER);
         } else {
-            createUserForm(targetElement.innerText, CREATE_USER)
+            Question.displayAllQuestions();
         }
     })
 };

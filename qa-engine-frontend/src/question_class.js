@@ -34,21 +34,7 @@ class Question extends Post {
             const action = event.target;
             const id = action.parentNode.id;
             if (action.innerText === 'view') {
-                main.innerText = '';
-                const questionSelected = allQuestions.find(obj => obj.id === id);
-                const displayQuestion = questionSelected.renderQuestion();
-                displayQuestion.removeChild(displayQuestion.lastElementChild);
-                displayQuestion.className = 'show';
-                const div = document.createElement('div');
-                div.textContent = 'Answer(s):';
-                div.className = 'answer';
-                main.append(displayQuestion, div);
-                if (questionSelected.comments.length > 0) {
-                    questionSelected.comments.forEach(comment => {
-                        main.appendChild(comment.renderAnswer());
-                    });
-                }
-
+                Question.displayQuestion(id);
             } else {
                 // add code for deleting question
             };
@@ -72,6 +58,23 @@ class Question extends Post {
         });
 
     };
+    static displayQuestion(questionId) {
+        main.innerText = '';
+        const questionSelected = allQuestions.find(obj => obj.id === questionId);
+        const displayQuestion = questionSelected.renderQuestion();
+        displayQuestion.removeChild(displayQuestion.lastElementChild);
+        displayQuestion.className = 'show';
+        const div = document.createElement('div');
+        div.textContent = 'Answer(s):';
+        div.className = 'answer';
+        main.append(displayQuestion, div);
+        if (questionSelected.comments.length > 0) {
+            questionSelected.comments.forEach(comment => {
+                main.appendChild(comment.renderAnswer());
+            });
+        }
+
+    }
 };
 
 Question.fetchQuestions();
