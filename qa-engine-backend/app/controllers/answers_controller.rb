@@ -15,15 +15,15 @@ class AnswersController < ApplicationController
   end
 
   def update
-    if answer.update(answer_params)
-      render json: AnswerSerializer.new(answer).serializable_hash
+    if @answer.update(answer_params)
+      render json: AnswerSerializer.new(@answer).serializable_hash
     else
-      render json: {errors: answer.errors.full_messages}, status: :not_acceptable 
+      render json: {errors: @answer.errors.full_messages}, status: :not_acceptable 
     end
   end
 
   def destroy
-    answer.destroy
+    @answer.destroy
   end
 
   private
@@ -33,8 +33,8 @@ class AnswersController < ApplicationController
   end
 
   def find_answer
-    answer = Answer.find_by(id: params[:id])
-    render json: {error: 'Answer not found'} unless answer
+    @answer = Answer.find_by(id: params[:id])
+    render json: {error: 'Answer not found'} unless @answer
   end
   
 

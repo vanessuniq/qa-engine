@@ -14,6 +14,9 @@ class Post {
     get body() {
         return this._body;
     };
+    set body(body) {
+        this._body = body;
+    };
     get created_at() {
         return this._created_at;
     };
@@ -33,11 +36,13 @@ class Post {
         h5.textContent = `Posted by: ${this.author}  || posted on: ${this.dateFormat()}`;
         user.appendChild(h5);
 
-        let content = document.createElement('div');
+        let content = document.createElement('textarea');
         content.className = 'content';
-        let p = document.createElement('p');
-        p.textContent = this.body;
-        content.appendChild(p);
+        content.setAttribute('readonly', true);
+        content.innerText = this.body;
+        // let p = document.createElement('p');
+        // p.textContent = this.body;
+        // content.appendChild(p);
 
         post.append(user, content);
         return post

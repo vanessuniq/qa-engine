@@ -43,9 +43,9 @@ function closeForm() {
     document.querySelector('div.form_popup').remove();
 };
 // object for post request
-function config(dataObj) {
+function config(method, dataObj) {
     return {
-        method: 'POST',
+        method: method,
         headers: {
             "Content-Type": "application/json",
             "Accept": "application/json"

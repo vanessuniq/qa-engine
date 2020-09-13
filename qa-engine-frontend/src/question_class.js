@@ -4,7 +4,11 @@ class Question extends Post {
         this.title = title;
         this.topic = topic;
     };
-    // Show
+    //comments
+    get comments() {
+        return allAnswers.filter(comment => comment.question_id == this.id);
+    };
+    // render question oon page
     renderQuestion() {
         const question = this.renderPost();
         const h1 = document.createElement('h1');
@@ -13,7 +17,10 @@ class Question extends Post {
         span.textContent = '#' + this.topic
         h1.textContent = `${this.title} || `
         h1.appendChild(span);
-        question.prepend(h1);
+        const comment = document.createElement('p');
+        comment.style.color = 'brown';
+        comment.textContent = `${this.comments.length} Answers`
+        question.prepend(h1, comment);
 
         const divButton = this.postAction('view');
         this.questionEvent(divButton);
@@ -28,10 +35,20 @@ class Question extends Post {
             const id = action.parentNode.id;
             if (action.innerText === 'view') {
                 main.innerText = '';
-                const displayQuestion = allQuestions.find(obj => obj.id === id).renderQuestion();
+                const questionSelected = allQuestions.find(obj => obj.id === id);
+                const displayQuestion = questionSelected.renderQuestion();
                 displayQuestion.removeChild(displayQuestion.lastElementChild);
                 displayQuestion.className = 'show';
-                main.appendChild(displayQuestion)
+                const div = document.createElement('div');
+                div.textContent = 'Answer(s):';
+                div.className = 'answer';
+                main.append(displayQuestion, div);
+                if (questionSelected.comments.length > 0) {
+                    questionSelected.comments.forEach(comment => {
+                        main.appendChild(comment.renderAnswer());
+                    });
+                }
+
             } else {
                 // add code for deleting question
             };

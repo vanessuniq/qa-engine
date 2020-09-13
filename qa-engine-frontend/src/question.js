@@ -10,7 +10,7 @@ function selection() {
         option.textContent = topic;
         select.appendChild(option)
     });
-    return select
+    return select;
 }
 
 // questions form (New)
@@ -23,7 +23,7 @@ function CreateQuestionForm(type, url) {
     const select = selection();
     const body = document.createElement('textarea');
     body.rows = '5';
-    body.cols = '30';
+    body.cols = '42';
     body.placeholder = 'Type your Question'
     const br = document.createElement('br')
     const buttons = formButtons(type);
@@ -39,7 +39,7 @@ function CreateQuestionForm(type, url) {
 // Create question
 function postQuestion(author, title, body, topic, url) {
     let dataObj = { question: { author, title, body, topic } }
-    fetch(url, config(dataObj)).then(resp => resp.json()).then(result => {
+    fetch(url, config('POST', dataObj)).then(resp => resp.json()).then(result => {
         if (result.data) {
             newQuestion(result.data);
             closeForm();
