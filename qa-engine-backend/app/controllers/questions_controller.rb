@@ -17,6 +17,12 @@ class QuestionsController < ApplicationController
   end
 
   def destroy
+    question = Question.find_by(id: params[:id])
+    if question
+      question.destroy
+    else
+      render json: {error: 'Unable to delete question, please try again'}
+    end
   end
 
   private
