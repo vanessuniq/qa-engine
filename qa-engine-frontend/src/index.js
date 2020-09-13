@@ -1,6 +1,7 @@
-CREATE_USER = 'http://localhost:3000/users'
-LOGIN_USER = 'http://localhost:3000/login'
-QUESTIONS = 'http://localhost:3000/questions'
+CREATE_USER = 'http://localhost:3000/users';
+LOGIN_USER = 'http://localhost:3000/login';
+QUESTIONS = 'http://localhost:3000/questions';
+ANSWERS = 'http://localhost:3000/answers';
 const header = document.querySelector('header');
 const main = document.querySelector('main');
 const invalid = document.getElementById('error');
