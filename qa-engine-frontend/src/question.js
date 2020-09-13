@@ -1,5 +1,5 @@
 // helper question functions
-let allQuestions = [];
+
 // select element for questions form
 function selection() {
     const select = document.createElement('select');
@@ -31,29 +31,7 @@ function CreateQuestionForm(type, url) {
 
     form.addEventListener('submit', (event) => {
         event.preventDefault();
-        postQuestion(author.value, title.value, body.value, select.value, url);
+        Question.postQuestion(author.value, title.value, body.value, select.value, url);
     })
 
 };
-
-// Create question
-function postQuestion(author, title, body, topic, url) {
-    let dataObj = { question: { author, title, body, topic } }
-    fetch(url, config('POST', dataObj)).then(resp => resp.json()).then(result => {
-        if (result.data) {
-            newQuestion(result.data);
-            closeForm();
-        } else {
-            formErrors(result.errors)
-        }
-    }).catch(error => alert(error));
-};
-
-// handle data from fetch
-function newQuestion(fetchResult) {
-    const id = fetchResult.id;
-    const { author, title, body, topic, created_at } = fetchResult.attributes;
-    allQuestions.push(new Question(id, author, title, body, topic, created_at));
-
-    Question.displayAllQuestions();
-}

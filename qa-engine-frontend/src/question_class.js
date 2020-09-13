@@ -1,3 +1,4 @@
+let allQuestions = [];
 class Question extends Post {
     constructor(id, author, title, body, topic, created_at) {
         super(id, author, body, created_at);
@@ -40,13 +41,34 @@ class Question extends Post {
             };
         });
     };
+    // Create question
+    static postQuestion(author, title, body, topic, url) {
+        let dataObj = { question: { author, title, body, topic } }
+        fetch(url, config('POST', dataObj)).then(resp => resp.json()).then(result => {
+            if (result.data) {
+                Question.newQuestion(result.data);
+                closeForm();
+            } else {
+                formErrors(result.errors)
+            }
+        }).catch(error => alert(error));
+    };
+
+    // handle data from fetch
+    static newQuestion(fetchResult) {
+        const id = fetchResult.id;
+        const { author, title, body, topic, created_at } = fetchResult.attributes;
+        allQuestions.push(new Question(id, author, title, body, topic, created_at));
+
+        Question.displayAllQuestions();
+    };
     // fetch and display all questions (Index)
     static async fetchQuestions() {
         await fetch(QUESTIONS).then(resp => resp.json()).then(result => {
-            result.data.forEach(newQuestion);
+            result.data.forEach(Question.newQuestion);
         }).catch(error => alert(error));
         this.displayAllQuestions();
-    }
+    };
     static displayAllQuestions() {
         main.innerText = '';
         let sortedQuestions = allQuestions.sort(function(a, b) {
