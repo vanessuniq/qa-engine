@@ -65,7 +65,7 @@ function formErrors(container, errors) {
     });
 }
 
-// Header event: loggin, sign up, post question
+// Header event: loggin, sign up, post question, home
 function headerEvent() {
     let Event = document.getElementById('nav');
     Event.addEventListener('click', (e) => {
@@ -77,7 +77,7 @@ function headerEvent() {
         } else if (targetElement.id === 'signup') {
             createUserForm(targetElement.innerText, CREATE_USER);
         } else {
-            Question.displayAllQuestions();
+            Question.displayAllQuestions(allQuestions);
         }
     })
 };

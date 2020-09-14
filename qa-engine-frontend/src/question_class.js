@@ -19,6 +19,7 @@ class Question extends Post {
             if (result.data) {
                 Question.newQuestion(result.data);
                 closeForm();
+                alert('Your question has been successfully created');
             } else {
                 formErrors(errorContainer, result.errors)
             }
@@ -29,11 +30,11 @@ class Question extends Post {
         await fetch(QUESTIONS).then(resp => resp.json()).then(result => {
             result.data.forEach(Question.newQuestion);
         }).catch(error => alert(error));
-        this.displayAllQuestions();
+        this.displayAllQuestions(allQuestions);
     };
-    static displayAllQuestions() {
+    static displayAllQuestions(questionsArray) {
         main.innerText = '';
-        let sortedQuestions = allQuestions.sort(function(a, b) {
+        let sortedQuestions = questionsArray.sort(function(a, b) {
             return new Date(b.created_at) - new Date(a.created_at);
         });
         sortedQuestions.forEach(question => {
@@ -48,7 +49,7 @@ class Question extends Post {
         const { author, title, body, topic, created_at } = fetchResult.attributes;
         allQuestions.push(new Question(id, author, title, body, topic, created_at));
 
-        Question.displayAllQuestions();
+        Question.displayAllQuestions(allQuestions);
     };
     // display one question and its answers (show)
     displayQuestion() {
@@ -82,7 +83,7 @@ class Question extends Post {
                     const position = allQuestions.indexOf(this);
                     allQuestions.splice(position, 1);
                     Answer.fetchAnswers();
-                    Question.displayAllQuestions()
+                    Question.displayAllQuestions(allQuestions)
                     alert('Your question was successfully deleted')
                 } else {
                     const result = resp.json();
@@ -90,6 +91,23 @@ class Question extends Post {
                 }
             }).catch(error => alert(error))
         };
+    };
+    // filter Questions by topic
+    static filterQuestions() {
+        const selection = document.querySelector('select.topic');
+        selection.addEventListener('change', () => {
+            if (selection.value) {
+                const filteredQuestions = allQuestions.filter(question => question.topic === selection.value);
+                if (filteredQuestions.length > 0) {
+                    this.displayAllQuestions(filteredQuestions);
+                } else {
+                    alert("There's no question with the selected topic yet")
+                };
+            } else {
+                this.displayAllQuestions(allQuestions);
+            };
+
+        });
     };
     // render question on page
     renderQuestion() {
@@ -128,3 +146,4 @@ class Question extends Post {
 };
 
 Question.fetchQuestions();
+Question.filterQuestions();
