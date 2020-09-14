@@ -9,7 +9,86 @@ class Question extends Post {
     get comments() {
         return allAnswers.filter(comment => comment.question_id == this.id);
     };
-    // render question oon page
+    // Create question
+    static postQuestion(author, title, body, topic, url, errorContainer) {
+        let dataObj = { question: { author, title, body, topic } }
+        fetch(url, config('POST', dataObj)).then(resp => resp.json()).then(result => {
+            if (result.data) {
+                Question.newQuestion(result.data);
+                closeForm();
+            } else {
+                formErrors(errorContainer, result.errors)
+            }
+        }).catch(error => alert(error));
+    };
+    // fetch and display all questions (Index)
+    static async fetchQuestions() {
+        await fetch(QUESTIONS).then(resp => resp.json()).then(result => {
+            result.data.forEach(Question.newQuestion);
+        }).catch(error => alert(error));
+        this.displayAllQuestions();
+    };
+    static displayAllQuestions() {
+        main.innerText = '';
+        let sortedQuestions = allQuestions.sort(function(a, b) {
+            return new Date(b.created_at) - new Date(a.created_at);
+        });
+        sortedQuestions.forEach(question => {
+            let displayQuestion = question.renderQuestion();
+            main.appendChild(displayQuestion)
+        });
+
+    };
+    // handle data from fetch
+    static newQuestion(fetchResult) {
+        const id = fetchResult.id;
+        const { author, title, body, topic, created_at } = fetchResult.attributes;
+        allQuestions.push(new Question(id, author, title, body, topic, created_at));
+
+        Question.displayAllQuestions();
+    };
+    // display one question and its answers (show)
+    displayQuestion() {
+        main.innerText = '';
+        //const questionSelected = allQuestions.find(obj => obj.id === questionId);
+        const displayQuestion = this.renderQuestion();
+        displayQuestion.lastElementChild.innerText = ''
+
+        const answerForm = Answer.answerForm(this.id);
+        const replyButton = document.createElement('button');
+        replyButton.innerText = 'Reply';
+        replyButton.addEventListener('click', () => answerForm.classList.remove('hidden'));
+        displayQuestion.lastElementChild.appendChild(replyButton);
+        displayQuestion.className = 'show';
+        const div = document.createElement('div');
+        div.textContent = 'Answer(s):';
+        div.className = 'answer';
+        main.append(displayQuestion, answerForm, div);
+        if (this.comments.length > 0) {
+            this.comments.forEach(comment => {
+                main.appendChild(comment.renderAnswer());
+            });
+        };
+
+    };
+    // delete question
+    deleteQuestion() {
+        if (confirm('would like to delete your question?')) {
+            fetch(`${QUESTIONS}/${this.id}`, { method: 'DELETE' }).then(resp => {
+                if (resp.ok) {
+                    const position = allQuestions.indexOf(this);
+                    allQuestions.splice(position, 1);
+                    Answer.fetchAnswers();
+                    Question.displayAllQuestions()
+                    alert('Your question was successfully deleted')
+                } else {
+                    const result = resp.json();
+                    alert(result.error);
+                }
+            }).catch(error => alert(error))
+        };
+    };
+    // render question on page
     renderQuestion() {
         const question = this.renderPost();
         const h1 = document.createElement('h1');
@@ -33,77 +112,16 @@ class Question extends Post {
     questionEvent(element) {
         element.addEventListener('click', event => {
             const action = event.target;
-            const id = action.parentNode.id;
+            const questionSelected = allQuestions.find(obj => obj.id === action.parentNode.id);
+            //const id = action.parentNode.id;
             if (action.innerText === 'view') {
-                Question.displayQuestion(id);
-            } else {
+                questionSelected.displayQuestion();
+            } else if (action.innerText === 'delete') {
                 // add code for deleting question
+                questionSelected.deleteQuestion();
             };
         });
     };
-    // Create question
-    static postQuestion(author, title, body, topic, url, errorContainer) {
-        let dataObj = { question: { author, title, body, topic } }
-        fetch(url, config('POST', dataObj)).then(resp => resp.json()).then(result => {
-            if (result.data) {
-                Question.newQuestion(result.data);
-                closeForm();
-            } else {
-                formErrors(errorContainer, result.errors)
-            }
-        }).catch(error => alert(error));
-    };
-
-    // handle data from fetch
-    static newQuestion(fetchResult) {
-        const id = fetchResult.id;
-        const { author, title, body, topic, created_at } = fetchResult.attributes;
-        allQuestions.push(new Question(id, author, title, body, topic, created_at));
-
-        Question.displayAllQuestions();
-    };
-    // fetch and display all questions (Index)
-    static async fetchQuestions() {
-        await fetch(QUESTIONS).then(resp => resp.json()).then(result => {
-            result.data.forEach(Question.newQuestion);
-        }).catch(error => alert(error));
-        this.displayAllQuestions();
-    };
-    static displayAllQuestions() {
-        main.innerText = '';
-        let sortedQuestions = allQuestions.sort(function(a, b) {
-            return new Date(b.created_at) - new Date(a.created_at);
-        });
-        sortedQuestions.forEach(question => {
-            let displayQuestion = question.renderQuestion();
-            main.appendChild(displayQuestion)
-        });
-
-    };
-    static displayQuestion(questionId) {
-        main.innerText = '';
-        const questionSelected = allQuestions.find(obj => obj.id === questionId);
-        const displayQuestion = questionSelected.renderQuestion();
-        //displayQuestion.removeChild(displayQuestion.lastElementChild);
-        displayQuestion.lastElementChild.innerText = ''
-
-        const answerForm = Answer.answerForm(questionId);
-        const replyButton = document.createElement('button');
-        replyButton.innerText = 'Reply';
-        replyButton.addEventListener('click', () => answerForm.classList.remove('hidden'));
-        displayQuestion.lastElementChild.appendChild(replyButton);
-        displayQuestion.className = 'show';
-        const div = document.createElement('div');
-        div.textContent = 'Answer(s):';
-        div.className = 'answer';
-        main.append(displayQuestion, answerForm, div);
-        if (questionSelected.comments.length > 0) {
-            questionSelected.comments.forEach(comment => {
-                main.appendChild(comment.renderAnswer());
-            });
-        };
-
-    }
 };
 
 Question.fetchQuestions();

@@ -16,6 +16,7 @@ class Answer extends Post {
     // fetch answers and save in allAnswers
     static async fetchAnswers() {
         await fetch(ANSWERS).then(resp => resp.json()).then(result => {
+            allAnswers = [];
             result.data.forEach(Answer.newAnswer);
         }).catch(error => alert(error));
     };
@@ -26,7 +27,8 @@ class Answer extends Post {
                 Answer.newAnswer(result.data);
                 replyForm.firstElementChild.reset();
                 replyForm.classList.add('hidden');
-                Question.displayQuestion(answerObj.answer.question_id);
+                const question = allQuestions.find(obj => obj.id === answerObj.answer.question_id);
+                question.displayQuestion();
                 alert('your answer has been successfully posted')
             } else {
                 errorContainer.innerText = '';
@@ -87,10 +89,12 @@ class Answer extends Post {
         if (confirm('would like to delete your answer')) {
             fetch(`${ANSWERS}/${this.id}`, { method: 'DELETE' }).then(resp => {
                 if (resp.ok) {
-                    const questionId = this.question_id.toString()
+                    const question = allQuestions.find(obj => obj.id === this.question_id.toString());
+                    //const questionId = this.question_id.toString();
                     const position = allAnswers.indexOf(this);
                     allAnswers.splice(position, 1);
-                    Question.displayQuestion(questionId);
+                    //Question.displayQuestion(questionId);
+                    question.displayQuestion();
                     alert('answer was successfully deleted')
                 } else {
                     const result = resp.json();
