@@ -7,7 +7,10 @@ class Question extends Post {
     };
     //comments
     get comments() {
-        return allAnswers.filter(comment => comment.question_id == this.id);
+        const comments = allAnswers.filter(comment => comment.question_id == this.id);
+        return comments.sort(function(a, b) {
+            return new Date(b.created_at) - new Date(a.created_at);
+        });
     };
     // Create question
     static postQuestion(author, title, body, topic, url, errorContainer) {
