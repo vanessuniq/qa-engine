@@ -105,18 +105,27 @@ header {
 main {
     text-align: center;
     width: 1300px;
+    /*ch*/
+    margin: 0;
+    padding: 0;
+    border: 0;
+    outline: 0;
+    font-size: 100%;
+    background: transparent;
 }
 
 
 /* questions display*/
 
 div.question {
-    margin-bottom: 15px;
+    /* margin-bottom: 15px;*/
     padding: 10px;
     border: 5px solid rgb(231, 10, 58);
     float: left;
     width: 600px;
-    height: 350px;
+    /* height: 350px;*/
+    overflow: auto;
+    min-height: 68px;
 }
 
 .show {
@@ -129,6 +138,14 @@ div.question {
 
 .ans {
     border: 5px solid rgb(15, 15, 15);
+}
+
+.hidden {
+    display: none;
+}
+
+.newanswer {
+    border: 5px solid rgb(56, 83, 77);
 }
 
 .answer {

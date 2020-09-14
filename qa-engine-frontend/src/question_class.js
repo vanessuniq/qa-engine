@@ -42,14 +42,14 @@ class Question extends Post {
         });
     };
     // Create question
-    static postQuestion(author, title, body, topic, url) {
+    static postQuestion(author, title, body, topic, url, errorContainer) {
         let dataObj = { question: { author, title, body, topic } }
         fetch(url, config('POST', dataObj)).then(resp => resp.json()).then(result => {
             if (result.data) {
                 Question.newQuestion(result.data);
                 closeForm();
             } else {
-                formErrors(result.errors)
+                formErrors(errorContainer, result.errors)
             }
         }).catch(error => alert(error));
     };
@@ -84,17 +84,24 @@ class Question extends Post {
         main.innerText = '';
         const questionSelected = allQuestions.find(obj => obj.id === questionId);
         const displayQuestion = questionSelected.renderQuestion();
-        displayQuestion.removeChild(displayQuestion.lastElementChild);
+        //displayQuestion.removeChild(displayQuestion.lastElementChild);
+        displayQuestion.lastElementChild.innerText = ''
+
+        const answerForm = Answer.answerForm(questionId);
+        const replyButton = document.createElement('button');
+        replyButton.innerText = 'Reply';
+        replyButton.addEventListener('click', () => answerForm.classList.remove('hidden'));
+        displayQuestion.lastElementChild.appendChild(replyButton);
         displayQuestion.className = 'show';
         const div = document.createElement('div');
         div.textContent = 'Answer(s):';
         div.className = 'answer';
-        main.append(displayQuestion, div);
+        main.append(displayQuestion, answerForm, div);
         if (questionSelected.comments.length > 0) {
             questionSelected.comments.forEach(comment => {
                 main.appendChild(comment.renderAnswer());
             });
-        }
+        };
 
     }
 };

@@ -5,7 +5,7 @@ ANSWERS = 'http://localhost:3000/answers';
 const header = document.querySelector('header');
 const main = document.querySelector('main');
 const invalid = document.getElementById('error');
-
+const hiddenDiv = document.querySelector('div.hidden');
 // form element
 function createForm(type) {
     let popup = document.querySelector('div.form_popup');
@@ -55,13 +55,13 @@ function config(method, dataObj) {
 };
 
 // form errors
-function formErrors(errors) {
-    invalid.innerText = '';
+function formErrors(container, errors) {
+    container.innerText = '';
     errors.forEach(error => {
         const li = document.createElement('li');
         li.innerHTML = error;
         li.style.color = 'brown'
-        invalid.appendChild(li);
+        container.appendChild(li);
     });
 }
 

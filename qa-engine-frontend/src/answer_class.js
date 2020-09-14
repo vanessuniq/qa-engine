@@ -19,6 +19,43 @@ class Answer extends Post {
             result.data.forEach(Answer.newAnswer);
         }).catch(error => alert(error));
     };
+    // post answer
+    static postAnswer(answerObj, replyForm, errorContainer) {
+        fetch(ANSWERS, config('POST', answerObj)).then(resp => resp.json()).then(result => {
+            if (result.data) {
+                Answer.newAnswer(result.data);
+                replyForm.firstElementChild.reset();
+                replyForm.classList.add('hidden');
+                Question.displayQuestion(answerObj.answer.question_id);
+                alert('your answer has been successfully posted')
+            } else {
+                errorContainer.innerText = '';
+                formErrors(errorContainer, result.errors);
+            }
+        }).catch(error => alert(error));
+    };
+    // Answer form
+    static answerForm(question_id) {
+        const invalidEntry = invalid.cloneNode()
+        const replyForm = hiddenDiv.cloneNode(true);
+        replyForm.firstElementChild.prepend(invalidEntry);
+        replyForm.firstElementChild.addEventListener('submit', event => {
+            event.preventDefault();
+            const targetElement = event.submitter;
+            if (targetElement.innerText === "post answer") {
+                const author = document.querySelector('main #author').value;
+                const body = document.querySelector('main #answer').value;
+                const answerObj = { answer: { author, body, question_id } };
+                Answer.postAnswer(answerObj, replyForm, invalidEntry);
+
+            } else {
+                invalidEntry.innerText = '';
+                replyForm.firstElementChild.reset()
+                replyForm.classList.add('hidden');
+            }
+        });
+        return replyForm;
+    };
     // render answer
     renderAnswer() {
         const answer = this.renderPost();

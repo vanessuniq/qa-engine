@@ -27,11 +27,12 @@ function CreateQuestionForm(type, url) {
     body.placeholder = 'Type your Question'
     const br = document.createElement('br')
     const buttons = formButtons(type);
-    form.append(invalid, author, title, br, select, body, ...buttons)
+    const errorContainer = invalid.cloneNode()
+    form.append(errorContainer, author, title, br, select, body, ...buttons)
 
     form.addEventListener('submit', (event) => {
         event.preventDefault();
-        Question.postQuestion(author.value, title.value, body.value, select.value, url);
+        Question.postQuestion(author.value, title.value, body.value, select.value, url, errorContainer);
     })
 
 };
