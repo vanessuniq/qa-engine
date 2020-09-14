@@ -13,9 +13,6 @@ class QuestionsController < ApplicationController
     end
   end
 
-  def show
-  end
-
   def destroy
     question = Question.find_by(id: params[:id])
     if question
