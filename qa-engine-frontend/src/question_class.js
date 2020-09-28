@@ -17,7 +17,7 @@ class Question extends Post {
         let dataObj = { question: { author, title, body, topic } }
         fetch(url, config('POST', dataObj)).then(resp => resp.json()).then(result => {
             if (result.data) {
-                Question.newQuestion(result.data);
+                this.newQuestion(result.data);
                 closeForm();
                 alert('Your question has been successfully created');
             } else {
@@ -28,7 +28,7 @@ class Question extends Post {
     // fetch and display all questions (Index)
     static async fetchQuestions() {
         await fetch(QUESTIONS).then(resp => resp.json()).then(result => {
-            result.data.forEach(Question.newQuestion);
+            result.data.forEach(this.newQuestion);
         }).catch(error => alert(error));
         this.displayAllQuestions(allQuestions);
     };
