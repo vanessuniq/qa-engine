@@ -1,4 +1,5 @@
 let allQuestions = [];
+//Question.all = [];
 class Question extends Post {
     constructor(id, author, title, body, topic, created_at) {
         super(id, author, body, created_at);
@@ -34,7 +35,7 @@ class Question extends Post {
     };
     static displayAllQuestions(questionsArray) {
         main.innerText = '';
-        let sortedQuestions = questionsArray.sort(function(a, b) {
+        let sortedQuestions = [...questionsArray].sort(function(a, b) {
             return new Date(b.created_at) - new Date(a.created_at);
         });
         sortedQuestions.forEach(question => {
