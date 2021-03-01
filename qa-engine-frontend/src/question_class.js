@@ -33,7 +33,7 @@ class Question extends Post {
         await fetch(QUESTIONS).then(resp => resp.json()).then(result => {
             result.data.forEach(this.newQuestion);
         }).catch(error => alert(error));
-        this.displayAllQuestions(allQuestions);
+        this.displayAllQuestions(Question.all);
     };
     static displayAllQuestions(questionsArray) {
         main.innerText = '';
