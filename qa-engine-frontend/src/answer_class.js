@@ -27,7 +27,7 @@ class Answer extends Post {
                 Answer.newAnswer(result.data);
                 replyForm.firstElementChild.reset();
                 replyForm.classList.add('hidden');
-                const question = allQuestions.find(obj => obj.id === answerObj.answer.question_id);
+                const question = Question.all.find(obj => obj.id === answerObj.answer.question_id);
                 question.displayQuestion();
                 alert('your answer has been successfully posted')
             } else {
@@ -89,7 +89,7 @@ class Answer extends Post {
         if (confirm('would like to delete your answer')) {
             fetch(`${ANSWERS}/${this.id}`, { method: 'DELETE' }).then(resp => {
                 if (resp.ok) {
-                    const question = allQuestions.find(obj => obj.id === this.question_id.toString());
+                    const question = Question.all.find(obj => obj.id === this.question_id.toString());
                     //const questionId = this.question_id.toString();
                     const position = allAnswers.indexOf(this);
                     allAnswers.splice(position, 1);

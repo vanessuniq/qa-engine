@@ -136,7 +136,7 @@ class Question extends Post {
     questionEvent(element) {
         element.addEventListener('click', event => {
             const action = event.target;
-            const questionSelected = allQuestions.find(obj => obj.id === action.parentNode.id);
+            const questionSelected = Question.all.find(obj => obj.id === action.parentNode.id);
             //const id = action.parentNode.id;
             if (action.innerText === 'view') {
                 questionSelected.displayQuestion();
