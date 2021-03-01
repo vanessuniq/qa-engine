@@ -100,14 +100,14 @@ class Question extends Post {
         const selection = document.querySelector('select.topic');
         selection.addEventListener('change', () => {
             if (selection.value) {
-                const filteredQuestions = allQuestions.filter(question => question.topic === selection.value);
+                const filteredQuestions = Question.all.filter(question => question.topic === selection.value);
                 if (filteredQuestions.length > 0) {
                     this.displayAllQuestions(filteredQuestions);
                 } else {
                     alert("There's no question with the selected topic yet")
                 };
             } else {
-                this.displayAllQuestions(allQuestions);
+                this.displayAllQuestions(Question.all);
             };
 
         });
