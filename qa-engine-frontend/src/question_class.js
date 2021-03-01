@@ -6,6 +6,8 @@ class Question extends Post {
         this.title = title;
         this.topic = topic;
     };
+    // property to hold the list of questions
+    static all = [];
     //comments
     get comments() {
         const comments = allAnswers.filter(comment => comment.question_id == this.id);
