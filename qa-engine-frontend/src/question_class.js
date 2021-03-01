@@ -50,9 +50,9 @@ class Question extends Post {
     static newQuestion(fetchResult) {
         const id = fetchResult.id;
         const { author, title, body, topic, created_at } = fetchResult.attributes;
-        allQuestions.push(new Question(id, author, title, body, topic, created_at));
+        Question.all.push(new Question(id, author, title, body, topic, created_at));
 
-        Question.displayAllQuestions(allQuestions);
+        Question.displayAllQuestions(Question.all);
     };
     // display one question and its answers (show)
     displayQuestion() {
