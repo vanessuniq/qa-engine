@@ -83,10 +83,10 @@ class Question extends Post {
         if (confirm('would like to delete your question?')) {
             fetch(`${QUESTIONS}/${this.id}`, { method: 'DELETE' }).then(resp => {
                 if (resp.ok) {
-                    const position = allQuestions.indexOf(this);
-                    allQuestions.splice(position, 1);
+                    const position = Question.all.indexOf(this);
+                    Question.all.splice(position, 1);
                     Answer.fetchAnswers();
-                    Question.displayAllQuestions(allQuestions)
+                    Question.displayAllQuestions(Question.all)
                     alert('Your question was successfully deleted')
                 } else {
                     const result = resp.json();
